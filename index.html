@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Preview</title>
+</head>
+<body>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,8 +18,8 @@
             --primary-color: #4CAF50; /* Green from original Khatabook logo */
             --primary-dark: #388E3C;
             --secondary-color: #FFC107; /* Amber for accents */
-            --success-color: #28a745;
-            --danger-color: #dc3545;
+            --success-color: #28a745; /* Original green for success */
+            --danger-color: #dc3545; /* Original red for danger */
             --text-dark: #333;
             --text-light: #666;
             --bg-light: #f4f7f6;
@@ -22,6 +29,33 @@
             --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.1);
             --shadow-medium: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
+
+        /* NEW COLOR MAPPING FOR GIVEN/BORROWED */
+        /* You Lent (Given) - should be Red */
+        .lent-card .amount-display,
+        .you-gave-col {
+            color: var(--danger-color) !important; /* Override with red */
+        }
+        .you-gave-col {
+            background-color: #ffe6e6; /* Light red background */
+        }
+
+        /* You Borrowed (Taken) - should be Green */
+        .borrowed-card .amount-display,
+        .you-got-col {
+            color: var(--success-color) !important; /* Override with green */
+        }
+        .you-got-col {
+            background-color: #e6ffe6; /* Light green background */
+        }
+        /* Update transaction header colors */
+        .transaction-header > div:nth-child(2) { /* YOU GAVE */
+            color: var(--danger-color) !important;
+        }
+        .transaction-header > div:last-child { /* YOU GOT */
+            color: var(--success-color) !important;
+        }
+
 
         * {
             box-sizing: border-box;
@@ -169,6 +203,9 @@
         textarea {
             resize: vertical;
             min-height: 80px;
+            /* Added for text overflow in textarea */
+            word-wrap: break-word; /* For breaking long words */
+            overflow-wrap: break-word;
         }
 
         .form-group small {
@@ -187,6 +224,8 @@
         .form-row .form-group {
             flex: 1;
             margin-bottom: 0;
+            /* Added for flex items containing long content */
+            min-width: 0; /* Allows content to shrink */
         }
 
         /* --- Buttons --- */
@@ -384,15 +423,10 @@
         .card .amount-display {
             font-size: 2.5em;
             font-weight: 700;
-            color: var(--text-dark);
-        }
-
-        .lent-card .amount-display {
-            color: var(--success-color);
-        }
-
-        .borrowed-card .amount-display {
-            color: var(--danger-color);
+            color: var(--text-dark); /* Default, overridden by specific card types */
+            /* Added for amount overflow */
+            word-break: break-all;
+            overflow-wrap: break-word;
         }
 
         /* --- Sections for Add Entry & People Summary --- */
@@ -412,12 +446,41 @@
             margin-bottom: 25px;
             color: var(--primary-dark);
         }
-        .add-entry-section.compact { /* For add entry form inside modal */
-            padding: 20px;
+        /* Styles for the "Add New Entry" section inside the Person Details Modal */
+        .add-entry-section.compact {
+            padding: 10px; /* Smaller padding */
             box-shadow: none;
             border: 1px solid var(--border-color);
-            margin-bottom: 20px;
+            margin-bottom: 10px; /* Smaller margin below the section */
         }
+        .add-entry-section.compact h3 {
+            font-size: 1.1em; /* Even smaller font for h3 title */
+            margin-bottom: 10px; /* Reduced margin below h3 */
+        }
+        .add-entry-section.compact .form-group {
+            margin-bottom: 8px; /* Smaller margin between form groups */
+        }
+        .add-entry-section.compact label {
+            font-size: 0.85em; /* Smaller label font */
+            margin-bottom: 3px; /* Reduced label margin */
+        }
+        .add-entry-section.compact input[type="number"],
+        .add-entry-section.compact select,
+        .add-entry-section.compact textarea {
+            padding: 6px 8px; /* Smaller input padding */
+            font-size: 0.85em; /* Smaller input font */
+            border-radius: 5px; /* Slightly smaller border radius */
+        }
+        .add-entry-section.compact .form-row {
+            gap: 8px; /* Smaller gap in form row */
+            margin-bottom: 8px; /* Smaller margin for form row */
+        }
+        .add-entry-section.compact .btn {
+            padding: 6px 12px; /* Smaller button padding */
+            font-size: 0.85em; /* Smaller button font */
+            margin-top: 8px; /* Reduced button margin */
+        }
+
 
         .add-entry-section form .btn {
             width: 100%;
@@ -452,23 +515,32 @@
         .person-details {
             flex-grow: 1;
             text-align: left;
+            /* Added for handling long names/balances */
+            min-width: 0; /* Allows flex item to shrink */
         }
 
         .person-details strong {
             font-size: 1.2em;
             color: var(--text-dark);
+            /* Added for long person names */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .person-details .net-balance {
             font-weight: 700;
             font-size: 1.3em;
             margin-left: 8px;
+            /* Added for balance numbers */
+            word-break: break-all;
+            overflow-wrap: break-word;
         }
+        /* Dashboard People Summary Colors Exchanged */
         .person-details .net-balance.lent {
-            color: var(--success-color);
+            color: var(--danger-color); /* Previously green, now red */
         }
         .person-details .net-balance.borrowed {
-            color: var(--danger-color);
+            color: var(--success-color); /* Previously red, now green */
         }
 
         .person-details small {
@@ -476,6 +548,9 @@
             color: var(--text-light);
             margin-top: 5px;
             font-size: 0.85em;
+            /* Added for long notes/last activity text */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .person-actions {
@@ -499,91 +574,145 @@
             margin-top: 20px;
         }
 
-        /* --- Transaction List within Modal --- */
+        /* --- Transaction List within Modal - NEW STYLES --- */
+        .transaction-history-container {
+            margin-top: 20px; /* Adjusted margin top */
+        }
+
+        .transaction-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr; /* ENTRIES, YOU GAVE, YOU GOT */
+            padding: 10px 0;
+            font-weight: 600;
+            color: var(--text-light);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            background-color: var(--card-bg); /* Ensure header is visible when scrolling */
+            z-index: 2; /* Above transaction rows */
+            font-size: 0.9em;
+        }
+        .transaction-header > div:last-child,
+        .transaction-header > div:nth-child(2) {
+            text-align: right;
+        }
+        .transaction-header > div:first-child {
+            padding-left: 10px;
+        }
+
+
         .transaction-list {
             list-style: none;
             padding: 0;
+            margin-top: 10px;
         }
-        .transaction-item {
+
+        .date-separator {
             background-color: var(--bg-medium);
-            border: 1px solid var(--border-color);
-            padding: 15px 20px;
-            margin-bottom: 12px;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
-            gap: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-        }
-
-        .transaction-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .transaction-item.lent {
-            border-left: 6px solid var(--success-color);
-        }
-
-        .transaction-item.borrowed {
-            border-left: 6px solid var(--danger-color);
-        }
-
-        .transaction-details {
-            flex-grow: 1;
-            text-align: left;
-        }
-
-        .transaction-details strong {
-            font-size: 1.1em;
-            color: var(--text-dark);
-        }
-
-        .transaction-details .entry-amount {
-            font-weight: 700;
-            font-size: 1.3em;
-            margin-left: 8px;
-        }
-
-        .transaction-details .type-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.8em;
-            font-weight: 700;
-            margin-left: 10px;
-            text-transform: uppercase;
-        }
-
-        .transaction-details .type-badge.lent {
-            background-color: #d4edda; /* Light green */
-            color: #155724; /* Dark green */
-        }
-
-        .transaction-details .type-badge.borrowed {
-            background-color: #f8d7da; /* Light red */
-            color: #721c24; /* Dark red */
-        }
-
-        .transaction-details small {
-            display: block;
             color: var(--text-light);
-            margin-top: 5px;
-            font-size: 0.85em;
+            font-size: 0.8em; /* Slightly smaller font */
+            font-weight: 600;
+            padding: 6px 10px; /* Reduced padding */
+            margin: 10px 0 5px 0; /* Reduced margins */
+            border-radius: 5px;
+            text-align: center;
+            position: sticky;
+            top: 40px; /* Below the main header */
+            z-index: 1;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        @media (max-width: 768px) {
+            .date-separator {
+                top: 35px; /* Adjust for smaller header */
+            }
         }
 
-        .transaction-actions {
-            display: flex;
-            gap: 8px;
+
+        .transaction-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+            font-size: 0.95em;
+            cursor: pointer; /* Make it look clickable */
+            transition: background-color 0.2s ease;
+        }
+        .transaction-row:hover {
+            background-color: var(--bg-medium); /* Hover effect */
         }
 
-        .transaction-actions .btn {
-            padding: 8px 15px;
-            font-size: 0.85em;
-            margin-top: 0; /* Override default button margin */
+
+        .transaction-row:last-child {
+            border-bottom: none;
+        }
+
+        .entries-col {
+            padding-left: 10px;
+            /* Added for content within entries-col */
+            min-width: 0; /* Allows flex/grid item to shrink */
+        }
+
+        .balance-info {
+            font-size: 0.8em;
+            color: var(--text-light);
+            margin-bottom: 3px;
+        }
+
+        .running-balance {
+            font-weight: 600;
+            /* Added for balance digits overflow */
+            word-break: break-all;
+            overflow-wrap: break-word;
+        }
+        /* BAL money colors exchanged logic */
+        .running-balance.lent { /* If I have given extra (positive balance) -> Red */
+            color: var(--danger-color);
+        }
+        .running-balance.borrowed { /* If I have borrowed extra (negative balance) -> Green */
+            color: var(--success-color);
+        }
+        .running-balance.settled { /* If BAL is 0 -> Yellow */
+            color: var(--secondary-color);
+        }
+
+
+        .transaction-description {
+            font-weight: 500;
+            color: var(--text-dark);
+            /* Added for description overflow */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        .transaction-notes {
+             font-size: 0.8em;
+             color: var(--text-light);
+             margin-top: 2px;
+             display: block;
+             /* Added for notes overflow */
+             word-wrap: break-word;
+             overflow-wrap: break-word;
+        }
+        .transaction-datetime {
+            font-size: 0.7em; /* Tiny font */
+            color: #888; /* Slightly darker than text-light */
+            margin-top: 2px;
+            display: block;
+        }
+
+
+        .you-gave-col,
+        .you-got-col {
+            text-align: right;
+            font-weight: 600;
+            font-size: 1em;
+            padding-right: 10px;
+            padding: 8px 10px; /* Consistent padding */
+            margin-left: 5px; /* Visual separation */
+            border-radius: 5px;
+            /* Added for amount digits overflow */
+            word-break: break-all;
+            overflow-wrap: break-word;
         }
 
 
@@ -632,8 +761,16 @@
             opacity: 0;
             transition: transform 0.3s ease, opacity 0.3s ease;
             max-height: 90vh; /* Limit modal height */
-            overflow-y: auto; /* Enable scroll for modal content */
+            overflow-y: auto; /* Make the entire modal content scrollable */
+            display: flex; /* Flex for inner content */
+            flex-direction: column; /* Stack content */
         }
+        .modal-content-scrollable {
+            /* flex-grow: 1; Removed as per user request */
+            /* overflow-y: auto; Removed as per user request */
+            /* This div now acts as a container for transaction history, not a scrollable area itself */
+        }
+
 
         .modal.active .modal-content {
             transform: translateY(0);
@@ -649,6 +786,7 @@
             font-weight: bold;
             cursor: pointer;
             transition: color 0.3s ease;
+            z-index: 1200; /* Ensure it's above everything */
         }
 
         .close-button:hover,
@@ -661,9 +799,23 @@
             font-size: 1.8em;
         }
 
-        .modal form .btn {
+        .modal form .btn-group { /* Group buttons in modal forms */
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
             margin-top: 25px;
         }
+        .modal form .btn-group .btn {
+            flex: 1;
+            margin-top: 0; /* Reset margin for buttons within group */
+        }
+        .modal form .btn:not(.btn-group .btn) { /* For single buttons */
+            margin-top: 25px;
+        }
+
+
+        /* Removed .sticky-buttons-container styles */
+
 
         /* --- Responsive Adjustments --- */
         @media (max-width: 768px) {
@@ -697,16 +849,26 @@
                 font-size: 0.9em;
             }
 
+            /* Mobile dashboard cards: horizontal and smaller titles */
             .summary-cards {
-                grid-template-columns: 1fr; /* Stack cards on small screens */
-                gap: 15px; /* Smaller gap */
+                display: flex; /* Use flexbox for horizontal layout */
+                flex-direction: row; /* Arrange horizontally */
+                gap: 15px; /* Space between cards */
+                flex-wrap: wrap; /* Allow wrapping if space is too tight */
+                justify-content: center; /* Center cards */
             }
 
-            .card {
-                padding: 20px; /* Adjust card padding */
+            .summary-cards .card {
+                flex: 1; /* Allow cards to grow and shrink */
+                min-width: 150px; /* Ensure a minimum width */
+                padding: 15px; /* Slightly less padding for mobile cards */
+            }
+            .summary-cards .card h3 {
+                font-size: 0.95em; /* Smaller title font for mobile */
+                margin-bottom: 8px; /* Reduced margin */
             }
             .card .amount-display {
-                font-size: 2em; /* Smaller amount font size */
+                font-size: 1.8em; /* Smaller amount font size */
             }
 
             .form-row {
@@ -717,26 +879,26 @@
                 margin-bottom: 15px;
             }
 
-            .person-item, .transaction-item { /* Adjusted for person-item and transaction-item */
+            .person-item { /* Adjusted for person-item */
                 flex-direction: column;
                 align-items: flex-start;
                 padding: 12px; /* Smaller padding */
             }
-            .person-details, .transaction-details { /* Adjusted for details */
+            .person-details { /* Adjusted for details */
                 margin-bottom: 8px; /* Smaller margin */
                 width: 100%;
             }
-            .person-details strong, .transaction-details strong {
+            .person-details strong {
                 font-size: 1em;
             }
-            .person-details .net-balance, .transaction-details .entry-amount {
+            .person-details .net-balance {
                 font-size: 1.1em;
             }
-            .person-actions, .transaction-actions {
+            .person-actions {
                 width: 100%;
                 justify-content: flex-end;
             }
-            .person-actions .btn, .transaction-actions .btn {
+            .person-actions .btn {
                 padding: 6px 10px;
                 font-size: 0.75em;
             }
@@ -751,6 +913,15 @@
             .modal h2 {
                 font-size: 1.5em;
             }
+
+            .transaction-header, .transaction-row {
+                grid-template-columns: 1.5fr 1fr 1fr; /* Adjust columns for smaller screens */
+                font-size: 0.85em;
+            }
+            .you-gave-col, .you-got-col {
+                padding: 6px 8px;
+            }
+            /* Removed sticky-buttons-container responsive styles */
         }
     </style>
 </head>
@@ -897,7 +1068,10 @@
                         <label for="editNotes">Notes (Optional):</label>
                         <textarea id="editNotes"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Update Entry</button>
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary">Update Entry</button>
+                        <button type="button" class="btn btn-danger" id="deleteEntryButton">Delete Entry</button>
+                    </div>
                 </form>
                 <div id="editMessage" class="message"></div>
             </div>
@@ -936,12 +1110,16 @@
                     <div id="entryForPersonMessage" class="message"></div>
                 </div>
 
-                <div class="entry-list-section">
-                    <h3>Transaction History</h3>
-                    <div id="personTransactionsList">
+                <div class="transaction-history-container modal-content-scrollable">
+                    <div class="transaction-header">
+                        <div>ENTRIES</div>
+                        <div>YOU GAVE</div>
+                        <div>YOU GOT</div>
+                    </div>
+                    <div id="personTransactionsList" class="transaction-list">
                         </div>
                 </div>
-            </div>
+                </div>
         </div>
 
     </div>
@@ -1065,7 +1243,8 @@
                     setTimeout(() => {
                         showSection('login-section');
                     }, 2000);
-                } catch (error) {
+                }
+                 catch (error) {
                     console.error('Signup error:', error.message);
                     showMessage('signupMessage', `Signup failed: ${error.message}`, 'error');
                 }
@@ -1168,8 +1347,6 @@
             unsubscribeFromKhatabook = db.collection('users').doc(uid).collection('khatabook')
                 .orderBy('timestamp', 'desc') // We need all entries to calculate totals and last activity per person
                 .onSnapshot(snapshot => {
-                    let totalLentOverall = 0;
-                    let totalBorrowedOverall = 0;
                     const peopleData = {}; // To aggregate data per person
 
                     if (snapshot.empty) {
@@ -1186,13 +1363,6 @@
                         const transactionType = entry.transactionType;
                         // Firestore Timestamp objects need .toDate() to be converted to JS Date objects
                         const timestamp = entry.timestamp ? entry.timestamp.toDate() : new Date(0); // Use a default old date if timestamp is missing
-
-                        // Update overall totals
-                        if (transactionType === 'lent') {
-                            totalLentOverall += amount;
-                        } else if (transactionType === 'borrowed') {
-                            totalBorrowedOverall += amount;
-                        }
 
                         // Aggregate data for people summary
                         if (!peopleData[personName]) {
@@ -1215,9 +1385,23 @@
                         }
                     });
 
+                    // Calculate current lent/borrowed based on net balances from people summary
+                    let currentTotalLent = 0;
+                    let currentTotalBorrowed = 0;
+
+                    Object.values(peopleData).forEach(data => {
+                        const netBalance = data.lent - data.borrowed;
+                        if (netBalance > 0) { // If I lent money to this person (positive balance for me)
+                            currentTotalLent += netBalance;
+                        } else if (netBalance < 0) { // If I borrowed money from this person (negative balance for me)
+                            currentTotalBorrowed += Math.abs(netBalance);
+                        }
+                    });
+
+
                     // Update overall summary cards
-                    totalLentDisplay.textContent = `₹ ${totalLentOverall.toFixed(2)}`;
-                    totalBorrowedDisplay.textContent = `₹ ${totalBorrowedOverall.toFixed(2)}`;
+                    totalLentDisplay.textContent = `₹ ${currentTotalLent.toFixed(2)}`;
+                    totalBorrowedDisplay.textContent = `₹ ${currentTotalBorrowed.toFixed(2)}`;
 
                     // Render People Summary
                     peopleSummaryListDiv.innerHTML = ''; // Clear previous list
@@ -1237,10 +1421,10 @@
 
                         if (netBalance > 0) {
                             balanceText += ' You Lent';
-                            balanceClass = 'lent';
+                            balanceClass = 'lent'; // This will now apply the red color
                         } else if (netBalance < 0) {
                             balanceText += ' You Borrowed';
-                            balanceClass = 'borrowed';
+                            balanceClass = 'borrowed'; // This will now apply the green color
                         } else {
                             balanceText = '₹ 0.00 Settled';
                         }
@@ -1254,6 +1438,7 @@
                             </div>
                             <div class="person-actions">
                                 <button class="btn btn-info" onclick="openPersonDetailsModal(decodeURIComponent('${encodeURIComponent(personName)}'))">View Details</button>
+                                <button class="btn btn-danger" onclick="deletePerson(decodeURIComponent('${encodeURIComponent(personName)}'))">Delete</button>
                             </div>
                         `;
                         ul.appendChild(listItem);
@@ -1276,9 +1461,11 @@
         const editAmountInput = document.getElementById('editAmount');
         const editTransactionTypeInput = document.getElementById('editTransactionType');
         const editNotesInput = document.getElementById('editNotes');
+        const deleteEntryButton = document.getElementById('deleteEntryButton'); // Get the new delete button
 
         function openEditModal(id, name, amount, type, notes) {
-document.getElementById('personDetailsModal')?.classList.remove('active');
+            // Optional: Close personDetailsModal if editModal is opened from there
+            document.getElementById('personDetailsModal')?.classList.remove('active'); 
             editEntryIdInput.value = id;
             editPersonNameInput.value = decodeURIComponent(name); // Decode here
             editAmountInput.value = amount;
@@ -1286,6 +1473,11 @@ document.getElementById('personDetailsModal')?.classList.remove('active');
             editNotesInput.value = decodeURIComponent(notes); // Decode here
             hideMessage('editMessage');
             editModal.classList.add('active'); // Use class for modal visibility
+
+            // Set up delete button action
+            if (deleteEntryButton) {
+                deleteEntryButton.onclick = () => deleteEntry(id);
+            }
         }
 
         if (closeEditModalButton) {
@@ -1329,7 +1521,7 @@ document.getElementById('personDetailsModal')?.classList.remove('active');
                             amount: newAmount,
                             transactionType: newTransactionType,
                             notes: newNotes,
-                            timestamp: firebase.firestore.FieldValue.serverTimestamp() // Update timestamp on edit
+                            // timestamp: firebase.firestore.FieldValue.serverTimestamp() // Removed to prevent position change
                         });
                         showMessage('editMessage', 'Entry updated successfully!', 'success');
                         editModal.classList.remove('active'); // Close modal
@@ -1349,7 +1541,8 @@ document.getElementById('personDetailsModal')?.classList.remove('active');
                 if (user) {
                     try {
     await db.collection('users').doc(user.uid).collection('khatabook').doc(id).delete();
-    showMessage('entryMessage', 'Entry deleted successfully!', 'success');
+    showMessage('editMessage', 'Entry deleted successfully!', 'success'); // Show message in edit modal's area
+    editModal.classList.remove('active'); // Close modal after deletion
 
     // ⏳ Wait for Firestore to update, then check person still exists
     setTimeout(() => {
@@ -1359,25 +1552,63 @@ document.getElementById('personDetailsModal')?.classList.remove('active');
         );
 
         if (!stillExists) {
-            // Person no longer exists, close modal
+            // Person no longer exists, close the modal
             personDetailsModal.classList.remove('active');
             if (unsubscribeFromPersonTransactions) {
                 unsubscribeFromPersonTransactions();
                 unsubscribeFromPersonTransactions = null;
             }
         } else {
-            refreshPersonTransactions();
+            // No explicit refresh needed due to onSnapshot listener
         }
     }, 300);
 } catch (error) {
                         console.error('Error deleting entry:', error.message);
-                        showMessage('entryMessage', `Failed to delete entry: ${error.message}`, 'error');
+                        showMessage('editMessage', `Failed to delete entry: ${error.message}`, 'error');
+                    }
+                } else {
+                    showMessage('editMessage', 'You must be logged in to delete entries.', 'error');
+                }
+            }
+        }
+
+        // --- NEW: Delete Person (all entries for a given person) ---
+        async function deletePerson(personName) {
+            if (confirm(`Are you sure you want to delete ALL entries for ${personName}? This action cannot be undone.`)) {
+                const user = auth.currentUser;
+                if (user) {
+                    try {
+                        // Get all documents for this person
+                        const snapshot = await db.collection('users').doc(user.uid).collection('khatabook')
+                            .where('personName', '==', personName)
+                            .get();
+
+                        if (snapshot.empty) {
+                            showMessage('entryMessage', `No entries found for ${personName} to delete.`, 'error');
+                            return;
+                        }
+
+                        // Create a batch to delete all documents efficiently
+                        const batch = db.batch();
+                        snapshot.docs.forEach(doc => {
+                            batch.delete(doc.ref);
+                        });
+
+                        await batch.commit();
+                        showMessage('entryMessage', `All entries for ${personName} deleted successfully!`, 'success');
+                        // No explicit refresh needed due to onSnapshot listener on dashboard
+                        // If personDetailsModal is open for this person, it will auto-close via its listener
+                        personDetailsModal.classList.remove('active'); // Ensure modal closes if open
+                    } catch (error) {
+                        console.error('Error deleting person and their entries:', error.message);
+                        showMessage('entryMessage', `Failed to delete ${personName} and their entries: ${error.message}`, 'error');
                     }
                 } else {
                     showMessage('entryMessage', 'You must be logged in to delete entries.', 'error');
                 }
             }
         }
+
 
         // --- Person Details Modal Logic ---
         const personDetailsModal = document.getElementById('personDetailsModal');
@@ -1414,56 +1645,121 @@ document.getElementById('personDetailsModal')?.classList.remove('active');
 
                 unsubscribeFromPersonTransactions = db.collection('users').doc(user.uid).collection('khatabook')
                     .where('personName', '==', personName) // Filter by personName
-                    .orderBy('timestamp', 'desc')
+                    .orderBy('timestamp', 'desc') // Order by descending for newest entries first
                     .onSnapshot(snapshot => {
                         personTransactionsListDiv.innerHTML = ''; // Clear previous list
                         if (snapshot.empty) {
-    personTransactionsListDiv.innerHTML = '<p class="no-entries">No transactions with this person yet.</p>';
-    
-    // Also check if the person exists in dashboard
-    const personItemStillExists = Array.from(document.querySelectorAll('.person-item'))
-        .some(item => item.textContent.includes(personName));
+                            personTransactionsListDiv.innerHTML = '<p class="no-entries">No transactions with this person yet.</p>';
+                            
+                            // Also check if the person exists in dashboard
+                            const personItemStillExists = Array.from(document.querySelectorAll('.person-item')).some(item =>
+                                item.textContent.includes(personName)
+                            );
 
-    if (!personItemStillExists) {
-        // Person was deleted, close the modal
-        personDetailsModal.classList.remove('active');
-        unsubscribeFromPersonTransactions?.();
-        unsubscribeFromPersonTransactions = null;
-    }
+                            if (!personItemStillExists) {
+                                // Person was deleted, close the modal
+                                personDetailsModal.classList.remove('active');
+                                unsubscribeFromPersonTransactions?.();
+                                unsubscribeFromPersonTransactions = null;
+                            }
+                            return;
+                        }
 
-    return;
-}
-
-                        const ul = document.createElement('ul');
-                        ul.classList.add('transaction-list');
+                        let currentBalance = 0;
+                        const allTransactions = [];
                         snapshot.forEach(doc => {
-                            const entry = doc.data();
-                            const entryId = doc.id;
-                            const timestampDate = entry.timestamp ? new Date(entry.timestamp.toDate()).toLocaleString() : 'N/A';
+                            allTransactions.push({ id: doc.id, ...doc.data() });
+                        });
 
-                            const listItem = document.createElement('li');
-                            listItem.classList.add('transaction-item', entry.transactionType);
-                            listItem.dataset.id = entryId;
+                        // Calculate running balance in correct order (oldest to newest) for display
+                        // This requires reversing the array for balance calculation if sorted desc for display
+                        const transactionsForBalanceCalc = [...allTransactions].reverse();
+                        const runningBalances = new Map();
+                        transactionsForBalanceCalc.forEach(entry => {
+                            if (entry.transactionType === 'lent') {
+                                currentBalance += entry.amount;
+                            } else if (entry.transactionType === 'borrowed') {
+                                currentBalance -= entry.amount;
+                            }
+                            runningBalances.set(entry.id, currentBalance);
+                        });
 
-                            // Use encodeURIComponent for notes and personName when passing to onclick
-                            const encodedPersonName = encodeURIComponent(entry.personName);
-                            const encodedNotes = encodeURIComponent(entry.notes || ''); // Handle empty notes
+                        let lastDate = ''; // To track date for separator
 
-                            listItem.innerHTML = `
-                                <div class="transaction-details">
-                                    <strong>Amount</strong>: <span class="entry-amount">₹${entry.amount.toFixed(2)}</span>
-                                    <span class="type-badge ${entry.transactionType}">${entry.transactionType === 'lent' ? 'You Lent' : 'You Borrowed'}</span>
-                                    <br>
-                                    <small>${entry.notes ? `Notes: ${entry.notes}` : 'No notes'} | ${timestampDate}</small>
+                        // Now iterate through transactions (already sorted desc for display)
+                        allTransactions.forEach(entry => {
+                            const entryId = entry.id;
+                            const amount = entry.amount;
+                            const transactionType = entry.transactionType;
+                            const notes = entry.notes || ''; // Ensure notes is not null
+                            const timestampDate = entry.timestamp ? entry.timestamp.toDate() : new Date();
+
+                            // Get the calculated running balance for this specific entry
+                            const displayBalance = runningBalances.get(entryId);
+
+                            // Format date for separator (e.g., "07 Jul 25")
+                            const dateOptions = { day: '2-digit', month: 'short', year: '2-digit' };
+                            const formattedDateForSeparator = timestampDate.toLocaleDateString('en-IN', dateOptions).replace(/\//g, ' '); // Format to "DD Mon YY"
+
+                            // Format date and time for individual transaction row (e.g., "HH:MM AM/PM, DD Mon YY")
+                            const datetimeOptions = { year: '2-digit', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: true };
+                            const formattedDateTime = timestampDate.toLocaleDateString('en-IN', datetimeOptions);
+
+                            // Add date separator if date changes
+                            if (formattedDateForSeparator !== lastDate) {
+                                const dateSeparatorDiv = document.createElement('div');
+                                dateSeparatorDiv.classList.add('date-separator');
+                                dateSeparatorDiv.textContent = formattedDateForSeparator; // Only date for separator
+                                personTransactionsListDiv.appendChild(dateSeparatorDiv);
+                                lastDate = formattedDateForSeparator;
+                            }
+
+                            const transactionRowDiv = document.createElement('div');
+                            transactionRowDiv.classList.add('transaction-row');
+                            transactionRowDiv.dataset.id = entryId;
+                            
+                            // Encode values for passing to onclick
+                            const encodedPersonName = encodeURIComponent(personName);
+                            const encodedNotes = encodeURIComponent(notes);
+
+                            // Add onclick handler to the row
+                            transactionRowDiv.setAttribute('onclick', `openEditModal('${entryId}', '${encodedPersonName}', ${amount}, '${transactionType}', '${encodedNotes}')`);
+
+                            // Determine balance class and description for display
+                            let balanceClass = '';
+                            let balanceDescription = '';
+                            if (displayBalance > 0) { // If I lent more than I borrowed (I will get money back)
+                                balanceClass = 'lent';
+                                balanceDescription = 'You will get';
+                            } else if (displayBalance < 0) { // If I borrowed more than I lent (I will give money)
+                                balanceClass = 'borrowed';
+                                balanceDescription = 'You will give';
+                            } else { // Balance is 0
+                                balanceClass = 'settled';
+                                balanceDescription = 'Settled';
+                            }
+
+                            // --- MODIFIED: Remove auto notes if not provided ---
+                            const displayNotes = notes.length > 0 ? notes : ''; // Show notes only if explicitly provided
+
+                            transactionRowDiv.innerHTML = `
+                                <div class="entries-col">
+                                    <div class="balance-info">
+                                        Bal. ₹ <span class="running-balance ${balanceClass}">${Math.abs(displayBalance).toFixed(0)}</span>
+                                        ${balanceDescription ? `(${balanceDescription})` : ''}
+                                    </div>
+                                    <div class="transaction-description">${displayNotes}</div>
+                                    <span class="transaction-datetime">${formattedDateTime}</span>
                                 </div>
-                                <div class="transaction-actions">
-                                    <button class="btn btn-warning" onclick="openEditModal('${entryId}', '${encodedPersonName}', ${entry.amount}, '${entry.transactionType}', '${encodedNotes}')">Edit</button>
-                                    <button class="btn btn-danger" onclick="deleteEntry('${entryId}')">Delete</button>
+                                <div class="you-gave-col">
+                                    ${transactionType === 'lent' ? `₹ ${amount.toFixed(0)}` : ''}
+                                </div>
+                                <div class="you-got-col">
+                                    ${transactionType === 'borrowed' ? `₹ ${amount.toFixed(0)}` : ''}
                                 </div>
                             `;
-                            ul.appendChild(listItem);
+                            personTransactionsListDiv.appendChild(transactionRowDiv);
                         });
-                        personTransactionsListDiv.appendChild(ul);
                     }, error => {
                         console.error('Error loading person transactions in real-time:', error.message);
                         showMessage('entryForPersonMessage', `Failed to load transactions: ${error.message}`, 'error');
@@ -1519,8 +1815,7 @@ document.getElementById('personDetailsModal')?.classList.remove('active');
                         });
                         showMessage('entryForPersonMessage', 'Entry added successfully!', 'success');
                         addEntryForPersonForm.reset();
-refreshPersonTransactions(); // 👈 refresh after adding entry
-                        // Real-time listener for person's transactions will update
+                        // Real-time listener for person's transactions will update automatically
                     } catch (error) {
                         console.error('Error adding entry for person:', error.message);
                         showMessage('entryForPersonMessage', `Failed to add entry: ${error.message}`, 'error');
@@ -1530,16 +1825,6 @@ refreshPersonTransactions(); // 👈 refresh after adding entry
                 }
             });
         }
-
-
-function refreshPersonTransactions() {
-    const currentPersonName = personDetailsModalPersonNameInput.value;
-    if (currentPersonName && typeof openPersonDetailsModal === "function") {
-        openPersonDetailsModal(currentPersonName);
-    }
-}
-
-
     </script>
 </body>
 </html>
