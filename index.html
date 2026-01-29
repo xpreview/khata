@@ -1261,7 +1261,7 @@
 
                 try {
                     await auth.sendPasswordResetEmail(email);
-                    showMessage('forgotPasswordMessage', 'Password reset email sent! Check your inbox.', 'success');
+                    showMessage('forgotPasswordMessage', 'Password reset email sent! Check your inbox and spam folder.', 'success');
                 } catch (error) {
                     console.error('Forgot password error:', error.message);
                     showMessage('forgotPasswordMessage', `Failed to send reset email: ${error.message}`, 'error');
