@@ -1131,13 +1131,13 @@
         // Your Firebase Configuration (GET THIS FROM FIREBASE CONSOLE)
         // Go to Firebase Console -> Project settings -> Your apps -> Web app
         const firebaseConfig = {
-            apiKey: "AIzaSyCFnD9Xt20WKGOtY_S5s3CchvCtRInL2bQ",
-            authDomain: "our-khata.firebaseapp.com",
-            projectId: "our-khata",
-            storageBucket: "our-khata.firebasestorage.app",
-            messagingSenderId: "762914243450",
-            appId: "1:762914243450:web:a5dc0b9eaf98dbfa86ccc3"
-        };
+    apiKey: "AIzaSyAqojGzXDe_ZmCkU-pL4n0-_Bq92YWNLBE",
+    authDomain: "our-khata-39130.firebaseapp.com",
+    projectId: "our-khata-39130",
+    storageBucket: "our-khata-39130.firebasestorage.app",
+    messagingSenderId: "157259214042",
+    appId: "1:157259214042:web:0a0d80e12356282b7d49e3"
+};
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
@@ -1213,7 +1213,7 @@
                     // showSection('dashboard-section') is handled by auth.onAuthStateChanged
                 } catch (error) {
                     console.error('Login error:', error.message);
-                    showMessage('loginMessage', `Login failed: ${error.message}`, 'error');
+                    showMessage('loginMessage', `Login failed or Check Password: ${error.message}`, 'error');
                 }
             });
         }
